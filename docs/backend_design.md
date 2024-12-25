@@ -81,3 +81,108 @@ backend/
 
 - JWT (JSON Web Token) ベースの認証
 - 認可はロールベース (RBAC) を検討
+
+## Supabaseとの連携
+
+バックエンドは、Supabase Pythonクライアントライブラリを使用してSupabaseと連携します。
+
+### スキーマ
+
+主な連携で利用する可能性のあるデータ構造の例：
+
+#### Product
+
+```python
+class Product(BaseModel):
+    id: int
+    name: str
+    description: Optional[str] = None
+    price: float
+    status: Literal['Available', 'OutOfStock', 'Hidden']
+    condition: Literal['New', 'Used']
+    stock_quantity: int
+    created_at: datetime
+    updated_at: datetime
+```
+
+#### ProductMedia
+
+```python
+class ProductMedia(BaseModel):
+    id: int
+    product_id: int
+    image_url: str
+    external_link: Optional[str] = None
+    is_primary: bool
+    created_at: datetime
+    updated_at: datetime
+```
+
+#### Cart
+
+```python
+class Cart(BaseModel):
+    id: int
+    user_id: UUID
+    created_at: datetime
+    updated_at: datetime
+    expires_at: Optional[datetime] = None
+```
+
+#### CartItem
+
+```python
+class CartItem(BaseModel):
+    id: int
+    cart_id: int
+    product_id: int
+    quantity: int
+    created_at: datetime
+    updated_at: datetime
+```
+
+#### Order
+
+```python
+class Order(BaseModel):
+    id: UUID
+    user_id: UUID
+    order_number: str
+    order_date: datetime
+    status: Literal['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled']
+    total_amount: float
+    items: List[Dict]  # JSONとして保存される
+    shipping_address: Optional[Dict] = None  # JSONとして保存される
+    created_at: datetime
+```
+
+#### Profile
+
+```python
+class Profile(BaseModel):
+    id: UUID
+    email: str
+    full_name: str
+    phone_number: Optional[str] = None
+    country: Optional[str] = None
+    address: Optional[Dict] = None  # JSONとして保存される
+    created_at: datetime
+    updated_at: datetime
+```
+
+#### ShippingAddress
+
+```python
+class ShippingAddress(BaseModel):
+    id: UUID
+    user_id: UUID
+    name: Optional[str] = None
+    postal_code: Optional[str] = None
+    prefecture: Optional[str] = None
+    city: Optional[str] = None
+    line1: str
+    line2: Optional[str] = None
+    phone: Optional[str] = None
+    is_default: bool = False
+    created_at: datetime
+    updated_at: datetime
