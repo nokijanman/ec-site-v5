@@ -54,12 +54,6 @@ export const Header: React.FC<Props> = ({ lang, onLanguageChange, onLoginClick }
               <UserCircle className="w-6 h-6" />
               <span>{lang === 'en' ? 'Login' : 'ログイン'}</span>
             </button>
-            <button
-              className="flex items-center gap-2 text-gray-700 hover:text-indigo-600 transition-colors"
-              onClick={handleGoogleLogin}
-            >
-              <span>{lang === 'en' ? 'Google Login' : 'Googleログイン'}</span>
-            </button>
           </div>
         </div>
       </div>

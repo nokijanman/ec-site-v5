@@ -1,145 +1,126 @@
 # ECサイト プロジェクト概要
 
-## プロジェクト構成
+## プロジェクト概要
 
-### 現在の構成
+このプロジェクトは、教師が日本のアニメグッズなどを海外向けに販売するECサイトです。フロントエンドはReactで構築されており、バックエンドは今後Pythonで開発する予定です。データベースにはSupabaseを利用します。
 
-```
-.gitignore
-eslint.config.js
-index.html
-package-lock.json
-package.json
-postcss.config.js
-README.md
-tailwind.config.js
-tsconfig.app.json
-tsconfig.json
-tsconfig.node.json
-vite.config.ts
-src/
-src/App.tsx
-src/index.css
-src/main.tsx
-src/vite-env.d.ts
-src/components/
-src/components/LanguageSwitch.tsx
-src/components/ProductCard.tsx
-src/components/auth/
-src/components/auth/LoginForm.tsx
-src/components/header/
-src/components/header/Header.tsx
-src/components/home/
-src/components/home/CategorySection.tsx
-src/components/home/FeaturedAnime.tsx
-src/components/home/HeroSection.tsx
-src/components/home/NewsSection.tsx
-src/data/
-src/data/products.ts
-src/types/
-src/types/index.ts
-```
-
-### 理想の構成
+## ディレクトリ構成
 
 ```
 ec-site-v5/
-├── backend/
-│   ├── app.py
-│   ├── models.py
-│   ├── schemas.py
-│   ├── routers/
-│   │   ├── auth.py
-│   │   ├── users.py
-│   │   ├── products.py
-│   │   └── payments.py
-│   ├── requirements.txt
-│   └── Dockerfile
-├── frontend/
-│   ├── index.html
+├── backend/             # バックエンド (Pythonで開発予定)
+├── frontend/            # フロントエンド (React)
 │   ├── public/
 │   ├── src/
-│   │   ├── App.tsx
-│   │   ├── main.tsx
 │   │   ├── components/
-│   │   ├── styles/
-│   │   ├── assets/
+│   │   ├── data/
+│   │   ├── types/
+│   │   ├── utils/
+│   │   ├── App.tsx
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── vite-env.d.ts
 │   │   └── ...
+│   ├── index.html
+│   ├── package-lock.json
 │   ├── package.json
-│   ├── vite.config.ts
+│   ├── postcss.config.js
+│   ├── README.md
+│   ├── tailwind.config.js
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   └── tsconfig.node.json
 │   └── ...
-├── docs/
-│   └── project_overview.md
-├── .gitignore
-├── README.md
+├── docs/                # ドキュメント
 └── ...
 ```
-**説明:**
 
-- `backend/`: Pythonで記述されたバックエンドのコードを格納します。
-    - `app.py`: アプリケーションのエントリーポイントです。
-    - `models.py`: データベースのモデルを定義します。
-    - `schemas.py`: リクエストとレスポンスのデータ構造を定義します。
-    - `routers/`: APIのエンドポイントを定義するモジュールを格納します。
-    - `requirements.txt`: プロジェクトの依存ライブラリをリストします。
-    - `Dockerfile`: コンテナ化のための設定ファイルです。
-- `frontend/`: Reactで記述されたフロントエンドのコードを格納します。
-    - `public/`: 静的アセットを格納します。
-    - `src/`: Reactのコンポーネント、スタイル、アセットなどを格納します。
-    - `package.json`: フロントエンドの依存関係とスクリプトを管理します。
-    - `vite.config.ts`: ビルドツールViteの設定ファイルです。
-- `docs/`: プロジェクトのドキュメントを格納します。
-    - `project_overview.md`: プロジェクトの概要を説明するドキュメントです。
-- `.gitignore`: Gitの管理対象から除外するファイルを指定します。
-- `README.md`: プロジェクトの概要やセットアップ方法などを記述します。
+## ワークフロー
 
-## 今後の工程
+1. **UI作成:** 現在、ホームページのUIを作成中です。
+2. **バックエンド開発:** 今後、Pythonでバックエンドを開発し、フロントエンドと統合します。
+3. **データベース連携:** Supabaseと連携し、ユーザ情報やカード情報を管理します。
+4. **決済機能:** クレジットカード決済などの決済フローを実装します。
+5. **ログイン機能:** Googleログインとフォームからのログイン機能を実装します。
 
-- バックエンド（Python）の統合
-- データベース（Supabase）との連携
-- 決済フローの構築
-- ログイン機能の実装（Googleログイン、フォームログイン）
+## 必要な工程
 
-## 必要なファイル
+1. **バックエンド環境構築:** Pythonの環境構築、フレームワーク選定、基本的なAPI設計など。
+2. **データベース設計:** Supabaseのテーブル設計、ER図作成など。
+3. **API開発:** ユーザ情報管理API、商品管理API、決済APIなどの開発。
+4. **フロントエンド実装:** API連携、コンポーネント実装、状態管理など。
+5. **決済フロー実装:** カード情報入力、確認、決済処理、発送方法選択など。
+6. **ログイン機能実装:** Googleログイン連携、フォームログイン実装。
+7. **テスト:** 各機能の単体テスト、結合テスト、E2Eテスト。
+8. **デプロイ:** 本番環境へのデプロイ。
 
-- `backend/`: バックエンドのコードを格納するディレクトリ
-- `backend/app.py`: バックエンドのエントリーポイント
-- `backend/models.py`: データベースモデルの定義
-- `backend/schemas.py`: リクエスト/レスポンスのスキーマ定義
-- `backend/routers/`: APIエンドポイントの定義
-- `src/components/auth/GoogleLoginButton.tsx`: Googleログインボタンのコンポーネント
-- `src/components/payment/`: 決済関連のコンポーネント
+## 必要なファイル (今後作成・修正予定を含む)
+
+- **backend/**
+    - `app.py` (バックエンドアプリケーションのエントリーポイント)
+    - `models.py` (データベースモデル)
+    - `schemas.py` (APIのリクエスト/レスポンスのスキーマ)
+    - `routes/` (APIのエンドポイント定義)
+        - `users.py`
+        - `products.py`
+        - `payments.py`
+    - `requirements.txt` (依存ライブラリ)
+- **frontend/src/**
+    - `components/`
+        - `auth/`
+            - `GoogleLoginButton.tsx`
+        - `payment/`
+            - `PaymentForm.tsx`
+            - `ShippingMethodForm.tsx`
+            - `ConfirmationPage.tsx`
+    - `services/` (APIクライアント)
+    - `store/` (状態管理)
+- **docs/**
+    - `database_setup.md` (Supabase設定)
+    - `backend_design.md` (バックエンド設計)
+    - `frontend_design.md` (フロントエンド設計)
+    - `api_endpoints.md` (APIエンドポイント一覧)
+    - `payment_flow.md` (決済フロー)
+    - `login_flow.md` (ログインフロー)
 
 ## 必要要件
 
-- ユーザー情報管理
-- カード情報管理
-- Googleログイン機能
-- ログインフォームからのログイン機能
+- **バックエンド:** Python, (フレームワーク名), Supabase Pythonクライアント
+- **フロントエンド:** React, TypeScript, Tailwind CSS, (状態管理ライブラリ), Supabase JavaScriptクライアント
+- **データベース:** Supabase
 
 ## 決済フロー
 
-1. **カート確認:** ユーザーがカートの内容を確認します。
-2. **配送方法選択:** ユーザーが配送方法を選択します。
-3. **決済方法選択:** ユーザーがクレジットカード、代金引換などの決済方法を選択します。
-4. **カード情報入力 (クレジットカード決済の場合):** ユーザーがカード情報を入力します。
-5. **注文確定:** ユーザーが注文内容を確認し、確定します。
-6. **決済処理:** 選択された決済方法で決済処理を行います。
-7. **注文完了:** 注文が完了し、ユーザーに通知が送信されます。
+一般的なECサイトの決済フローを考慮すると、以下のようになります。
 
-## 課題
+1. **カートに追加:** ユーザーが商品をカートに追加します。
+2. **購入手続きへ:** カートの内容を確認し、購入手続きに進みます。
+3. **ログイン/ゲスト購入:** ログインしている場合はスキップ、していない場合はログインまたはゲスト購入を選択します。
+4. **配送先入力:** 配送先の住所、氏名、電話番号などを入力します。
+5. **支払い方法選択:** クレジットカード、銀行振込、コンビニ払いなど、利用可能な支払い方法を選択します。
+6. **カード情報入力 (クレジットカード決済の場合):** クレジットカード番号、有効期限、セキュリティコードなどを入力します。
+7. **注文内容確認:** 注文商品、数量、金額、配送先、支払い方法などを確認します。
+8. **注文確定:** 注文を確定します。
+9. **決済処理:** 選択された支払い方法で決済処理を行います。
+10. **注文完了:** 注文完了画面を表示し、注文確認メールを送信します。
 
-- [ ] バックエンドの基本構造を構築する (Issue #7)
-- [ ] Supabaseとの接続設定を行う (Issue #8)
-- [ ] ユーザー認証機能を実装する（Googleログイン、フォームログイン） (Issue #9)
-- [ ] ユーザー情報管理機能を実装する (Issue #10)
-- [ ] カード情報管理機能を実装する (Issue #11)
-- [ ] 決済フローを実装する (Issue #12)
-- [ ] フロントエンドとバックエンドを連携させる (Issue #13)
+## ログイン機能
 
-## バックエンドとフロントエンドの統合
+- **Googleログイン:** ヘッダーにGoogleログインボタンを設置し、OAuth 2.0 を利用してGoogleアカウントでログインできるようにします。
+- **フォームログイン:** ログインフォームからメールアドレスとパスワードを入力してログインできるようにします。
 
-- フロントエンド (React) からバックエンド (FastAPI) のAPIエンドポイントを呼び出して連携します。
-- APIの呼び出しには、`fetch` APIまたは `axios` などのHTTPクライアントライブラリを使用します。
-- 認証が必要なAPIエンドポイントを呼び出す際には、JWTをリクエストヘッダーに含めます。
-- バックエンドAPIのベースURLは、環境変数などで管理します。
+## イシュー
+
+- 🎨 ヘッダーにGoogleログインボタンを設置する (#16)
+- 🔒 ログインフォームからログインできるようにする (#17)
+- 🐍 Pythonバックエンドの環境構築を行う (#18)
+- 🐘 Supabaseと連携してユーザ情報を管理する (#10)
+- 💳 Supabaseと連携してカード情報を管理する (#11)
+- 💰 クレジットカード決済フローを実装する (#12)
+- 📦 配送方法選択機能を実装する (#19)
+- 🏦 決済方法選択機能を実装する (#20)
+- ✅ 注文内容確認ページを作成する (#21)
+- 🚀 バックエンドAPIを開発する (ユーザ情報管理、商品管理、決済など) (#22)
+- ✨ フロントエンドでAPI連携を行う (#23)
+
+後ほど、これらのイシューをGitHub Issuesに登録します。

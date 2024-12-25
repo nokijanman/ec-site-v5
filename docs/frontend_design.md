@@ -85,6 +85,8 @@ frontend/
 
 ### スキーマ
 
+**注意:**  日付型は文字列 (`string`) として記述されていますが、APIとのデータ交換時にはISO 8601形式などの統一されたフォーマットを使用します。
+
 主な連携で利用する可能性のあるデータ構造の例：
 
 #### Product
@@ -126,8 +128,7 @@ interface Cart {
   user_id: string;
   created_at: string;
   updated_at: string;
-  expires_at?: string;
-  cart_items: CartItem[];
+  expires_at?: string | null;
 }
 ```
 

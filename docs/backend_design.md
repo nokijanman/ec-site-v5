@@ -88,6 +88,8 @@ backend/
 
 ### スキーマ
 
+**注意:** 日付型は `datetime` オブジェクトとして記述されていますが、APIとのデータ交換時にはISO 8601形式などの統一されたフォーマットを使用します。
+
 主な連携で利用する可能性のあるデータ構造の例：
 
 #### Product
@@ -127,6 +129,7 @@ class Cart(BaseModel):
     created_at: datetime
     updated_at: datetime
     expires_at: Optional[datetime] = None
+    # カートアイテムは、データベースのリレーションシップを通じてアクセスします。
 ```
 
 #### CartItem
