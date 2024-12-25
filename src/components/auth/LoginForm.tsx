@@ -97,7 +97,27 @@ export const LoginForm: React.FC<Props> = ({ lang, onClose }) => {
         </form>
 
         <div className="mt-6 pt-6 border-t border-gray-200">
-          <div className="text-center space-y-4">
+          <button
+            className="w-full py-2 px-4 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+            onClick={async () => {
+              try {
+                const { error } = await supabase.auth.signInWithOAuth({
+                  provider: 'google',
+                });
+                if (error) {
+                  console.error('Google login error:', error.message);
+                  // TODO: Display error message to user
+                }
+              } catch (error: any) {
+                console.error('Unexpected error during Google login:', error.message);
+                  // TODO: Display error message to user
+              }
+            }}
+          >
+            <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google" />
+            <span>{lang === 'en' ? 'Continue with Google' : 'Googleで続行'}</span>
+          </button>
+          <div className="text-center space-y-4 mt-4">
             <h3 className="text-lg font-medium text-gray-900">
               {lang === 'en' ? 'New to Anime Store?' : 'アニメストアは初めてですか？'}
             </h3>
