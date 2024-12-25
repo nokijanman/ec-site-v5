@@ -2,7 +2,7 @@
 
 ## プロジェクト構成
 
-現在のプロジェクトディレクトリ構成は以下の通りです。
+### 現在の構成
 
 ```
 .gitignore
@@ -39,6 +39,59 @@ src/data/products.ts
 src/types/
 src/types/index.ts
 ```
+
+### 理想の構成
+
+```
+ec-site-v5/
+├── backend/
+│   ├── app.py
+│   ├── models.py
+│   ├── schemas.py
+│   ├── routers/
+│   │   ├── auth.py
+│   │   ├── users.py
+│   │   ├── products.py
+│   │   └── payments.py
+│   ├── requirements.txt
+│   └── Dockerfile
+├── frontend/
+│   ├── index.html
+│   ├── public/
+│   ├── src/
+│   │   ├── App.tsx
+│   │   ├── main.tsx
+│   │   ├── components/
+│   │   ├── styles/
+│   │   ├── assets/
+│   │   └── ...
+│   ├── package.json
+│   ├── vite.config.ts
+│   └── ...
+├── docs/
+│   └── project_overview.md
+├── .gitignore
+├── README.md
+└── ...
+```
+**説明:**
+
+- `backend/`: Pythonで記述されたバックエンドのコードを格納します。
+    - `app.py`: アプリケーションのエントリーポイントです。
+    - `models.py`: データベースのモデルを定義します。
+    - `schemas.py`: リクエストとレスポンスのデータ構造を定義します。
+    - `routers/`: APIのエンドポイントを定義するモジュールを格納します。
+    - `requirements.txt`: プロジェクトの依存ライブラリをリストします。
+    - `Dockerfile`: コンテナ化のための設定ファイルです。
+- `frontend/`: Reactで記述されたフロントエンドのコードを格納します。
+    - `public/`: 静的アセットを格納します。
+    - `src/`: Reactのコンポーネント、スタイル、アセットなどを格納します。
+    - `package.json`: フロントエンドの依存関係とスクリプトを管理します。
+    - `vite.config.ts`: ビルドツールViteの設定ファイルです。
+- `docs/`: プロジェクトのドキュメントを格納します。
+    - `project_overview.md`: プロジェクトの概要を説明するドキュメントです。
+- `.gitignore`: Gitの管理対象から除外するファイルを指定します。
+- `README.md`: プロジェクトの概要やセットアップ方法などを記述します。
 
 ## 今後の工程
 
