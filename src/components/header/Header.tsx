@@ -2,6 +2,7 @@ import React from 'react';
 import { ShoppingBag, Search, UserCircle } from 'lucide-react';
 import { LanguageSwitch } from '../LanguageSwitch';
 import { Language } from '../../types';
+import { supabase } from '../../utils/supabaseClient';
 
 interface Props {
   lang: Language;
@@ -10,6 +11,21 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = ({ lang, onLanguageChange, onLoginClick }) => {
+  const handleGoogleLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+      });
+      if (error) {
+        console.error('Google login error:', error.message);
+        // TODO: Display error message to user
+      }
+    } catch (error: any) {
+      console.error('Unexpected error during Google login:', error.message);
+      // TODO: Display error message to user
+    }
+  };
+
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -37,6 +53,12 @@ export const Header: React.FC<Props> = ({ lang, onLanguageChange, onLoginClick }
             >
               <UserCircle className="w-6 h-6" />
               <span>{lang === 'en' ? 'Login' : 'ログイン'}</span>
+            </button>
+            <button
+              className="flex items-center gap-2 text-gray-700 hover:text-indigo-600 transition-colors"
+              onClick={handleGoogleLogin}
+            >
+              <span>{lang === 'en' ? 'Google Login' : 'Googleログイン'}</span>
             </button>
           </div>
         </div>
