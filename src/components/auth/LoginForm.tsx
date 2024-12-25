@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Lock } from 'lucide-react';
 import { Language } from '../../types';
+import { supabase } from '../../utils/supabaseClient';
 
 interface Props {
   lang: Language;
@@ -11,10 +12,24 @@ export const LoginForm: React.FC<Props> = ({ lang, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login:', { email, password });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        console.error('Login error:', error.message);
+        // TODO: Display error message to user
+      } else {
+        console.log('Login successful');
+        // TODO: Redirect user or update UI
+      }
+    } catch (error: any) {
+      console.error('Unexpected error during login:', error.message);
+      // TODO: Display error message to user
+    }
   };
 
   return (
