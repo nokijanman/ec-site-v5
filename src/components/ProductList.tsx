@@ -44,8 +44,8 @@ const ProductList: React.FC<ProductListProps> = ({ lang }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} lang={lang} />
+      {products.map((product, index) => (
+        <ProductCard key={product.id} product={product} lang={lang} style={{ animationDelay: `${index * 100}ms` }} />
       ))}
     </div>
   );

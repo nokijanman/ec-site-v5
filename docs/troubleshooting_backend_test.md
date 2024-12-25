@@ -23,3 +23,11 @@ sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate
 ## 今後の対応
 - Supabase 側の問題の可能性を考慮し、少し時間を置いてから再度テストを実行します。
 - 必要に応じて、`.env` ファイルに設定されている Supabase の URL が正しいことを再確認します。
+
+## 現在までの調査結果
+- バックエンドテストが Supabase データベースへの接続に失敗している。
+- エラーメッセージから、ホスト名 `db.supabase.co` を解決できない DNS の問題が発生している可能性がある。
+- 環境変数 (`.env` ファイル) に設定されている Supabase の URL とキーは正しいことを確認済み。
+- バックエンドアプリケーション内から Supabase の URL (`https://xmkkzykfjmzxxkxbawys.supabase.co`) を名前解決できることを確認済み。
+- 環境変数 `PYTHONPATH` に `backend` ディレクトリを追加することで、pytest が `backend` モジュールを認識できるようになった。
+- 現在、バックエンドテストを実行中であり、`backend/tests/test_products.py` に追加した `print` 文による `DATABASE_URL` の出力結果を待っている状態。
