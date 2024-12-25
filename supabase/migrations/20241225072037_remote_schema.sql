@@ -32,36 +32,6 @@ GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
 
---
--- cart_items
---
-CREATE TABLE public.cart_items (
-  id integer NOT NULL,
-  cart_id integer NOT NULL,
-  product_id integer NOT NULL,
-  quantity integer NOT NULL,
-  created_at timestamp with time zone DEFAULT now(),
-  updated_at timestamp with time zone DEFAULT now()
-);
-ALTER TABLE public.cart_items OWNER TO postgres;
-GRANT ALL ON TABLE public.cart_items TO anon;
-GRANT ALL ON TABLE public.cart_items TO authenticated;
-GRANT ALL ON TABLE public.cart_items TO service_role;
-
---
--- carts
---
-CREATE TABLE public.carts (
-  id integer NOT NULL,
-  user_id uuid NOT NULL,
-  created_at timestamp with time zone DEFAULT now(),
-  updated_at timestamp with time zone DEFAULT now(),
-  expires_at timestamp with time zone
-);
-ALTER TABLE public.carts OWNER TO postgres;
-GRANT ALL ON TABLE public.carts TO anon;
-GRANT ALL ON TABLE public.carts TO authenticated;
-GRANT ALL ON TABLE public.carts TO service_role;
 
 --
 -- favorites
