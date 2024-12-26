@@ -1,4 +1,4 @@
-# データベース設定 (Supabase)
+## データベース設定 (Supabase)
 
 ## データベース構造
 
@@ -467,3 +467,60 @@ EXECUTE FUNCTION manage_default_address();
 - デフォルト配送先の自動管理
 - セキュアなアクセス制御
 - 配送先の追加・編集・削除機能
+
+## データベース接続 (Supabase)
+
+### 【Python】Supabase & SQLAlchemy における IPv6 対応方法
+
+Supabase が IPv6 のサポートを開始したことにより、IPv4 での接続文字列による操作ができなくなりました。今回の記事では、その対応方法を簡潔に説明していきます。
+
+2024年03月06日
+いままでフロントエンド系の記事ばかりでしたが、実はサーバーサイドもそれなりに齧っております。
+
+個人開発において、データベースの利用料金は極力抑えておきたいものです。
+そんな中、Supabase なら RDB を無料で使える。所詮は個人開発です。バックアップの必要もありません。
+※ 利用を検討している方は、無料利用枠の制限を確認しておきましょう。
+
+前提
+以下の前提条件で進めていきます。
+Supabase のクライアントライブラリだけで済ませている人は無関係なので、そっと閉じましょう！
+
+* Supabase のデータベースを接続文字列で利用したい人
+* SQLAlchemy 1.4 系
+* IPv4 から IPv6 へ
+
+早速本題です。大したことではないのですが、Supabase の DB を ORM で扱おうと思ったら、当然のことながら Connection Strings （接続文字列）というものを引っ張り出してこないといけません。
+
+IPv4 の場合: `postgresql://postgres:[YOUR-PASSWORD]@db.[REF-ID].supabase.co:5432/postgres`
+
+IPv6 の場合: `postgresql://postgres.[REF-ID]:[YOUR-PASSWORD]@aws-0-[REGION].pooler.supabase.com:5432/postgres`
+
+このように変えてあげればいいわけです。
+
+ダッシュボードに惑わされない心
+ダッシュボードには注意書きとヒントが含まれています。
+
+> Specify when a connection can be returned to the pool. Please refer to our documentation to find out the most suitable mode for your use case.
+> If you’re using prepared statements in your database, you will need to either use the Session pool mode or use port 5432 in the connection string.
+
+今回は ORM で DB 操作するので、5432 のまま設定していきます。
+加えて、SQLAlchemy 1.4 以降では `postgresql://` 形式が推奨されているようです。
+ダッシュボードに書かれている形式（`postgres://`）では動かないので要注意
+!!
+
+※ 現在、注意書きは存在しないようです
+
+なぜ Client ライブラリを使わないのか
+Supabase では、DB の操作に Client ライブラリが提供されています。
+プロジェクトが完全に Supabase に依存している場合、わざわざ ORM にする必要はないかもしれません。
+
+認証を使わず、DB だけ利用したい。となると、かなりセキュリティルールを考えなければなりません。
+※ そもそも実例を見たことがない
+
+接続文字列でのアクセスであれば、REST API 経由でのアクセスを全て拒否して DB の操作が可能かなと。ただそれだけです。
+
+おわり
+タイトルに大きく Python と書いてしまいましたが、ぶっちゃけあまり関係ないです。
+自身 Flask を使用しており、接続形式の問題でちょいハマったので。
+
+そのうち、Flask のハンズオンなんかも書けたらいいなとおもいます。
