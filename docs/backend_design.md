@@ -2,8 +2,8 @@
 
 ## 技術選定
 
-- **言語:** Python 3.x
-- **フレームワーク:** FastAPI
+- **言語:** TypeScript
+- **フレームワーク:** NestJS
 - **データベース:** Supabase (PostgreSQL)
 - **認証:** JWT (JSON Web Token)
 - **API ドキュメント:** OpenAPI (Swagger UI)
@@ -12,40 +12,48 @@
 
 ```
 backend/
-├── app/
-│   ├── __init__.py
-│   ├── main.py       # アプリケーションのエントリーポイント
-│   ├── models/       # データベースモデル
-│   │   ├── __init__.py
-│   │   ├── user.py
-│   │   ├── product.py
-│   │   ├── order.py
-│   │   └── payment.py
-│   ├── schemas/      # リクエスト/レスポンスのスキーマ (Pydantic)
-│   │   ├── __init__.py
-│   │   ├── user.py
-│   │   ├── product.py
-│   │   ├── order.py
-│   │   └── payment.py
-│   ├── routers/      # APIエンドポイント
-│   │   ├── __init__.py
-│   │   ├── auth.py
-│   │   ├── users.py
-│   │   ├── products.py
-│   │   └── payments.py
+├── src/
+│   ├── main.ts       # アプリケーションのエントリーポイント
+│   ├── app.module.ts # アプリケーションのルートモジュール
+│   ├── controllers/  # APIエンドポイント
+│   │   ├── auth.controller.ts
+│   │   ├── users.controller.ts
+│   │   ├── products.controller.ts
+│   │   └── payments.controller.ts
+│   ├── services/     # ビジネスロジック
+│   │   ├── auth.service.ts
+│   │   ├── users.service.ts
+│   │   ├── products.service.ts
+│   │   └── payments.service.ts
+│   ├── entities/     # データベースエンティティ (TypeORM)
+│   │   ├── user.entity.ts
+│   │   ├── product.entity.ts
+│   │   ├── order.entity.ts
+│   │   └── payment.entity.ts
+│   ├── dtos/         # リクエスト/レスポンスのデータ転送オブジェクト
+│   │   ├── create-user.dto.ts
+│   │   ├── update-user.dto.ts
+│   │   ├── create-product.dto.ts
+│   │   └── update-product.dto.ts
+│   ├── modules/      # 機能ごとのモジュール
+│   │   ├── auth.module.ts
+│   │   ├── users.module.ts
+│   │   ├── products.module.ts
+│   │   └── payments.module.ts
 │   ├── core/         # 共通処理、設定
-│   │   ├── __init__.py
-│   │   ├── config.py
-│   │   ├── database.py
-│   │   └── security.py
-│   └── tests/        # テストコード
-│       ├── __init__.py
-│       ├── conftest.py
-│       ├── test_auth.py
-│       ├── test_users.py
-│       └── test_products.py
-├── requirements.txt  # 依存ライブラリ
-└── Dockerfile        # Docker設定ファイル
+│   │   ├── config/
+│   │   │   ├── configuration.ts
+│   │   ├── database/
+│   │   │   ├── database.module.ts
+│   │   │   ├── data-source.ts
+│   │   ├── auth/
+│   │   │   ├── jwt.strategy.ts
+│   ├── tests/        # テストコード
+│   │   ├── auth.controller.spec.ts
+│   │   ├── users.controller.spec.ts
+│   │   └── products.controller.spec.ts
+├── package.json      # 依存ライブラリ
+├── tsconfig.json     # TypeScript設定ファイル
 ```
 
 ## API エンドポイント設計
@@ -65,7 +73,7 @@ backend/
 ### 商品 (products)
 
 - `GET /products`: 商品一覧の取得
-- `GET /products/{product_id}`: 特定の商品の取得
+- `GET /products/:id`: 特定の商品の取得
 
 ### 決済 (payments)
 
@@ -75,7 +83,7 @@ backend/
 ## データベース連携
 
 - Supabase (PostgreSQL) を使用
-- SQLAlchemy (またはSQLAlchemy Core) を使用してデータベース操作
+- TypeORM を使用してデータベース操作
 
 ## 認証・認可
 
@@ -84,108 +92,111 @@ backend/
 
 ## Supabaseとの連携
 
-バックエンドは、Supabase Pythonクライアントライブラリを使用してSupabaseと連携します。
+バックエンドは、 `@supabase/supabase-js` を使用して Supabase と連携します。
 
 ### スキーマ
 
-**注意:** 日付型は `datetime` オブジェクトとして記述されていますが、APIとのデータ交換時にはISO 8601形式などの統一されたフォーマットを使用します。
-
-主な連携で利用する可能性のあるデータ構造の例：
-
 #### Product
 
-```python
-class Product(BaseModel):
-    id: int
-    name: str
-    description: Optional[str] = None
-    price: float
-    status: Literal['Available', 'OutOfStock', 'Hidden']
-    condition: Literal['New', 'Used']
-    stock_quantity: int
-    created_at: datetime
-    updated_at: datetime
+```typescript
+interface Product {
+  id: number;
+  name: string;
+  description?: string;
+  price: number;
+  status: 'Available' | 'OutOfStock' | 'Hidden';
+  condition: 'New' | 'Used';
+  stock_quantity: number;
+  created_at: string;
+  updated_at: string;
+}
 ```
 
 #### ProductMedia
 
-```python
-class ProductMedia(BaseModel):
-    id: int
-    product_id: int
-    image_url: str
-    external_link: Optional[str] = None
-    is_primary: bool
-    created_at: datetime
-    updated_at: datetime
+```typescript
+interface ProductMedia {
+  id: number;
+  product_id: number;
+  image_url: string;
+  external_link?: string;
+  is_primary: boolean;
+  created_at: string;
+  updated_at: string;
+}
 ```
 
 #### Cart
 
-```python
-class Cart(BaseModel):
-    id: int
-    user_id: UUID
-    created_at: datetime
-    updated_at: datetime
-    expires_at: Optional[datetime] = None
-    # カートアイテムは、データベースのリレーションシップを通じてアクセスします。
+```typescript
+interface Cart {
+  id: number;
+  user_id: string; // UUID
+  created_at: string;
+  updated_at: string;
+  expires_at?: string;
+  // カートアイテムは、リレーションを通じて取得
+}
 ```
 
 #### CartItem
 
-```python
-class CartItem(BaseModel):
-    id: int
-    cart_id: int
-    product_id: int
-    quantity: int
-    created_at: datetime
-    updated_at: datetime
+```typescript
+interface CartItem {
+  id: number;
+  cart_id: number;
+  product_id: number;
+  quantity: number;
+  created_at: string;
+  updated_at: string;
+}
 ```
 
 #### Order
 
-```python
-class Order(BaseModel):
-    id: UUID
-    user_id: UUID
-    order_number: str
-    order_date: datetime
-    status: Literal['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled']
-    total_amount: float
-    items: List[Dict]  # JSONとして保存される
-    shipping_address: Optional[Dict] = None  # JSONとして保存される
-    created_at: datetime
+```typescript
+interface Order {
+  id: string; // UUID
+  user_id: string; // UUID
+  order_number: string;
+  order_date: string;
+  status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+  total_amount: number;
+  items: any[]; // JSONとして保存
+  shipping_address?: any; // JSONとして保存
+  created_at: string;
+}
 ```
 
 #### Profile
 
-```python
-class Profile(BaseModel):
-    id: UUID
-    email: str
-    full_name: str
-    phone_number: Optional[str] = None
-    country: Optional[str] = None
-    address: Optional[Dict] = None  # JSONとして保存される
-    created_at: datetime
-    updated_at: datetime
+```typescript
+interface Profile {
+  id: string; // UUID
+  email: string;
+  full_name: string;
+  phone_number?: string;
+  country?: string;
+  address?: any; // JSONとして保存
+  created_at: string;
+  updated_at: string;
+}
 ```
 
 #### ShippingAddress
 
-```python
-class ShippingAddress(BaseModel):
-    id: UUID
-    user_id: UUID
-    name: Optional[str] = None
-    postal_code: Optional[str] = None
-    prefecture: Optional[str] = None
-    city: Optional[str] = None
-    line1: str
-    line2: Optional[str] = None
-    phone: Optional[str] = None
-    is_default: bool = False
-    created_at: datetime
-    updated_at: datetime
+```typescript
+interface ShippingAddress {
+  id: string; // UUID
+  user_id: string; // UUID
+  name?: string;
+  postal_code?: string;
+  prefecture?: string;
+  city?: string;
+  line1: string;
+  line2?: string;
+  phone?: string;
+  is_default?: boolean;
+  created_at: string;
+  updated_at: string;
+}
