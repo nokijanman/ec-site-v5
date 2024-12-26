@@ -18,3 +18,9 @@
     *   `.env` ファイルの `DATABASE_URL` を Supabase の推奨形式に修正しました。
     *   バックエンドの接続テスト (`backend/tests/test_connection.py`) を実行した結果、データベースへの接続に失敗しました。
         *   エラーメッセージ: `FATAL:  Tenant or user not found`
+        *   エラーコード: (psycopg2.OperationalError)
+        *   考えられる原因:
+            *   `.env` ファイルの `DATABASE_URL` が正しくない (特にテナント ID、ユーザー名、パスワード)
+            *   Supabase 側の認証設定の問題
+        *   確認済み項目:
+            *   `.env` ファイルに `DATABASE_URL` が設定されていること
